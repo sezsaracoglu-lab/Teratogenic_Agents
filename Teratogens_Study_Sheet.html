@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teratogens — Study Sheet</title>
+<style>
+  :root {
+    --bg:  #0d1117; --bg2: #161b22; --bg3: #21262d;
+    --border: #30363d; --text: #e6edf3; --text2: #8b949e; --text3: #6e7681;
+    --sub:  #e36209;   /* Substances  — orange  */
+    --med:  #1f6feb;   /* Medications — blue    */
+    --ill:  #da3633;   /* Illegal Drugs — red   */
+    --inf:  #8957e5;   /* Infectious Agents — purple */
+    --env:  #2ea043;   /* Environmental — green */
+    --gold: #d29922; --gold-bg: #272115;
+  }
+  * { box-sizing: border-box; margin:0; padding:0; }
+  body { font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+         background:var(--bg); color:var(--text); line-height:1.6; }
+
+  header {
+    position:sticky; top:0; z-index:100;
+    background:var(--bg); border-bottom:1px solid var(--border);
+    padding:12px 20px; display:flex; flex-wrap:wrap; gap:10px;
+    align-items:center; justify-content:space-between;
+  }
+  .h-title { font-size:1rem; font-weight:700; }
+  .h-sub   { font-size:0.75rem; color:var(--text2); }
+  .h-ctrl  { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .prog    { font-size:0.78rem; color:var(--text2); white-space:nowrap; }
+  input[type=search] {
+    background:var(--bg3); border:1px solid var(--border);
+    color:var(--text); border-radius:6px; padding:5px 10px;
+    font-size:0.85rem; width:180px; outline:none;
+  }
+  input[type=search]:focus { border-color:var(--sub); }
+  .btn {
+    background:var(--bg3); border:1px solid var(--border);
+    color:var(--text); padding:5px 12px; border-radius:6px;
+    font-size:0.8rem; cursor:pointer; transition:background 0.15s;
+  }
+  .btn:hover { background:#2d333b; }
+
+  .filter-bar { padding:10px 20px; display:flex; gap:8px; flex-wrap:wrap; border-bottom:1px solid var(--border); }
+  .pill { border:1px solid currentColor; border-radius:20px; padding:3px 12px; font-size:0.75rem; cursor:pointer; opacity:0.5; transition:opacity 0.15s; white-space:nowrap; }
+  .pill.active { opacity:1; }
+  .pill-all { color:var(--text2); }
+  .pill-sub { color:var(--sub); }
+  .pill-med { color:var(--med); }
+  .pill-ill { color:var(--ill); }
+  .pill-inf { color:var(--inf); }
+  .pill-env { color:var(--env); }
+
+  .legend { padding:8px 20px; display:flex; gap:16px; flex-wrap:wrap; border-bottom:1px solid var(--border); font-size:0.72rem; color:var(--text2); }
+  .legend-item { display:flex; align-items:center; gap:5px; }
+  .ldot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+  main { max-width:1100px; margin:0 auto; padding:20px; }
+
+  .intro { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:18px 22px; margin-bottom:28px; }
+  .intro h2 { font-size:1rem; margin-bottom:10px; }
+  .intro-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+  .intro-cell { background:var(--bg3); border-radius:8px; padding:12px 14px; font-size:0.82rem; }
+  .intro-cell strong { display:block; margin-bottom:4px; font-size:0.85rem; }
+
+  .cat-sec { margin-bottom:32px; }
+  .cat-sec.hidden { display:none; }
+  .cat-hdr { display:flex; align-items:center; gap:10px; padding:10px 16px; border-radius:8px 8px 0 0; margin-bottom:2px; border-left:3px solid; }
+  .cat-hdr h2 { font-size:0.95rem; font-weight:700; }
+  .cat-badge { font-size:0.7rem; padding:2px 8px; border-radius:20px; font-weight:600; letter-spacing:0.03em; }
+
+  .hdr-sub { border-color:var(--sub);  background:rgba(227,98,9,0.06); }
+  .hdr-sub .cat-badge { background:rgba(227,98,9,0.15); color:var(--sub); }
+  .hdr-med { border-color:var(--med);  background:rgba(31,111,235,0.06); }
+  .hdr-med .cat-badge { background:rgba(31,111,235,0.15); color:var(--med); }
+  .hdr-ill { border-color:var(--ill);  background:rgba(218,54,51,0.06); }
+  .hdr-ill .cat-badge { background:rgba(218,54,51,0.15); color:var(--ill); }
+  .hdr-inf { border-color:var(--inf);  background:rgba(137,87,229,0.06); }
+  .hdr-inf .cat-badge { background:rgba(137,87,229,0.15); color:var(--inf); }
+  .hdr-env { border-color:var(--env);  background:rgba(46,160,67,0.06); }
+  .hdr-env .cat-badge { background:rgba(46,160,67,0.15); color:var(--env); }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:12px; }
+
+  .card { background:var(--bg2); border:1px solid var(--border); border-radius:8px; overflow:hidden; transition:border-color 0.2s; }
+  .card:hover { border-color:#444c56; }
+  .card.hidden { display:none !important; }
+  .card.checked { opacity:0.5; }
+  .card.checked .cname { text-decoration:line-through; }
+
+  .card-head { padding:14px 16px 10px; display:flex; align-items:flex-start; gap:10px; }
+  .card-cb { margin-top:3px; width:16px; height:16px; flex-shrink:0; cursor:pointer; }
+  .cname { font-size:1rem; font-weight:700; line-height:1.3; }
+  .csub  { font-size:0.75rem; color:var(--text2); margin-top:2px; }
+  .cprev { font-size:0.72rem; color:var(--text3); margin-top:2px; }
+
+  .card-img-wrap { width:100%; height:170px; overflow:hidden; background:var(--bg3); display:flex; align-items:center; justify-content:center; position:relative; }
+  .card-img-wrap img { width:100%; height:100%; object-fit:cover; display:block; opacity:0; transition: opacity 0.4s ease; }
+  .card-img-wrap img.loaded { opacity:1; }
+  .img-loading { width:32px; height:32px; border:3px solid var(--border); border-top-color:var(--text3); border-radius:50%; animation:spin 0.8s linear infinite; position:absolute; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .img-fb { font-size:2.2rem; font-weight:700; color:var(--text3); }
+
+  .card-tabs { display:flex; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+  .ctab { flex:1; padding:6px 2px; font-size:0.68rem; font-weight:600; text-align:center; cursor:pointer; color:var(--text2); background:transparent; border:none; transition:all 0.15s; letter-spacing:0.02em; }
+  .ctab:hover { background:var(--bg3); }
+  .ctab.active { color:var(--text); background:var(--bg3); }
+
+  .card-body { padding:12px 16px 14px; min-height:90px; }
+  .tp { display:none; }
+  .tp.active { display:block; }
+  .tp ul { list-style:none; padding:0; }
+  .tp li { font-size:0.82rem; padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.6); display:flex; gap:6px; align-items:flex-start; }
+  .tp li:last-child { border:none; }
+  .tp li::before { content:'→'; color:var(--text3); flex-shrink:0; font-size:0.7rem; margin-top:3px; }
+
+  .cg { display:grid; grid-template-columns:auto 1fr; gap:4px 10px; font-size:0.82rem; }
+  .cl { color:var(--text3); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; padding-top:2px; white-space:nowrap; }
+  .cv { color:var(--text); }
+
+  .tip { background:var(--gold-bg); border:1px solid rgba(210,153,34,0.3); border-radius:6px; padding:10px 12px; font-size:0.82rem; color:#e6c84a; line-height:1.5; }
+  .tip strong { color:var(--gold); }
+  .tip p { margin-bottom:6px; }
+  .tip p:last-child { margin-bottom:0; }
+  .tip ul { list-style:none; padding:0; margin-top:6px; }
+  .tip li { padding:3px 0; display:flex; gap:6px; align-items:flex-start; font-size:0.8rem; }
+  .tip li::before { content:'·'; color:var(--gold); flex-shrink:0; }
+  .tip .tip-section { margin-top:8px; }
+  .tip .tip-label { color:var(--gold); font-weight:700; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:3px; }
+
+  /* PROGRESS BAR */
+  .pbar-wrap { background: var(--bg3); border-bottom: 1px solid var(--border); padding: 6px 20px; display: flex; align-items: center; gap: 12px; }
+  .pbar-track { flex: 1; height: 8px; background: var(--bg); border-radius: 99px; overflow: hidden; border: 1px solid var(--border); }
+  .pbar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--sub), var(--ill), var(--env)); border-radius: 99px; transition: width 0.35s ease; }
+  .pbar-label { font-size: 0.75rem; color: var(--text2); white-space: nowrap; min-width: 60px; text-align: right; }
+
+  /* COMPLETION BANNER */
+  #done-banner { display: none; position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #0d2b0d; border: 1px solid #2ea043; border-radius: 12px; padding: 16px 28px; text-align: center; z-index: 999; box-shadow: 0 8px 32px rgba(0,0,0,0.5); animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+  #done-banner.visible { display: block; }
+  .done-emoji { font-size: 2rem; display: block; margin-bottom: 4px; }
+  .done-title { font-size: 1rem; font-weight: 700; color: #4caf50; }
+  .done-sub { font-size: 0.8rem; color: var(--text2); margin-top: 2px; }
+  .done-close { margin-top: 10px; font-size: 0.75rem; color: var(--text3); cursor: pointer; text-decoration: underline; }
+  @keyframes popIn { from { opacity:0; transform: translateX(-50%) scale(0.8); } to { opacity:1; transform: translateX(-50%) scale(1); } }
+
+  footer { text-align:center; padding:28px; font-size:0.75rem; color:var(--text3); border-top:1px solid var(--border); margin-top:20px; }
+
+  @media(max-width:600px) { .grid { grid-template-columns:1fr; } input[type=search] { width:130px; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="h-title">🧪 Teratogenic Agents</div>
+    <div class="h-sub">Developmental Psychology · Shaffer &amp; Kipp</div>
+  </div>
+  <div class="h-ctrl">
+    <span class="prog" id="prog">0 / 16 recalled</span>
+    <input type="search" id="srch" placeholder="Search agent…" oninput="doSearch()">
+    <button class="btn" onclick="expandAll()">Expand All</button>
+    <button class="btn" onclick="clearChecks()">Reset</button>
+  </div>
+</header>
+
+<div class="pbar-wrap">
+  <div class="pbar-track"><div class="pbar-fill" id="pbar"></div></div>
+  <div class="pbar-label" id="pbar-label">0 / 16</div>
+</div>
+
+<div class="filter-bar">
+  <span class="pill pill-all active" onclick="setFilter('all',this)">All (16)</span>
+  <span class="pill pill-sub" onclick="setFilter('sub',this)">💊 Substances (4)</span>
+  <span class="pill pill-med" onclick="setFilter('med',this)">💉 Medications (4)</span>
+  <span class="pill pill-ill" onclick="setFilter('ill',this)">⚠️ Illegal Drugs (2)</span>
+  <span class="pill pill-inf" onclick="setFilter('inf',this)">🦠 Infectious Agents (4)</span>
+  <span class="pill pill-env" onclick="setFilter('env',this)">☢️ Environmental (2)</span>
+</div>
+
+<div class="legend">
+  <span class="legend-item"><span class="ldot" style="background:var(--sub)"></span> Substances</span>
+  <span class="legend-item"><span class="ldot" style="background:var(--med)"></span> Medications</span>
+  <span class="legend-item"><span class="ldot" style="background:var(--ill)"></span> Illegal Drugs</span>
+  <span class="legend-item"><span class="ldot" style="background:var(--inf)"></span> Infectious Agents</span>
+  <span class="legend-item"><span class="ldot" style="background:var(--env)"></span> Environmental Hazards</span>
+  <span class="legend-item"><span style="color:var(--gold)">★</span> Flagged exam question</span>
+</div>
+
+<main>
+
+  <div class="intro">
+    <h2>🔬 Key Principles of Teratology</h2>
+    <div class="intro-grid">
+      <div class="intro-cell"><strong>What is a teratogen?</strong>Any environmental agent that interferes with prenatal development — substances, infections, radiation, or chemicals.</div>
+      <div class="intro-cell"><strong>Critical period</strong>Most damage occurs in the embryonic period (weeks 3–8) when organ systems are forming. Timing = the most important variable.</div>
+      <div class="intro-cell"><strong>Dose–response</strong>Higher dose generally = greater harm. Some teratogens (e.g. thalidomide) cause damage at very low doses.</div>
+      <div class="intro-cell"><strong>Placental barrier</strong>Not a true barrier — most teratogens cross the placenta. Some concentrate in the fetus at levels higher than the mother.</div>
+      <div class="intro-cell"><strong>Paternal effects</strong>Fathers can also contribute via damaged sperm chromosomes (e.g. alcohol, chemicals), causing miscarriage or genetic defects.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ SUBSTANCES ══════════ -->
+  <section class="cat-sec" id="sec-sub">
+    <div class="cat-hdr hdr-sub">
+      <h2>💊 Substances</h2>
+      <span class="cat-badge">4 agents</span>
+    </div>
+    <div class="grid">
+
+      <!-- CAFFEINE -->
+      <div class="card" data-cat="sub" data-name="caffeine">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Caffeine</div>
+            <div class="csub">Legal stimulant — coffee, tea, sodas, energy drinks</div>
+            <div class="cprev">⚠️ Some countries advise complete avoidance</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Caffeine" alt="Caffeine">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Management</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Tip</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Risk threshold</span><span class="cv">&gt;4 cups/sodas per day</span>
+            <span class="cl">Mechanism</span><span class="cv">Influences blood pressure; crosses placenta rapidly</span>
+            <span class="cl">Category</span><span class="cv">Legal substance — widely consumed</span>
+            <span class="cl">Country note</span><span class="cv">Netherlands advises complete avoidance during pregnancy</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Miscarriage risk at high intake levels</li>
+            <li>Low birth weight in newborns</li>
+            <li>Blood pressure elevation — dangerous for pregnant women</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>Limit to &lt;200 mg/day (approx. 1–2 cups coffee) per most guidelines</li>
+            <li>Netherlands: complete abstinence recommended</li>
+            <li>Avoid energy drinks and high-caffeine sodas</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip"><strong>★</strong> Caffeine: threshold effect — moderate amounts considered lower risk, but dose above 4 cups/day linked to miscarriage &amp; low birth weight. Note the Netherlands advises full avoidance — a contrast to other national guidelines.</div></div>
+        </div>
+      </div>
+
+      <!-- SMOKING / NICOTINE -->
+      <div class="card" data-cat="sub" data-name="smoking nicotine">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Smoking / Nicotine ★</div>
+            <div class="csub">Tobacco; also e-cigarettes and nicotine patches</div>
+            <div class="cprev">⚠️ Potentiates other teratogens · SIDS risk</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Smoking_and_pregnancy" alt="Smoking in pregnancy">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Management</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Exam Q</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Mechanism</span><span class="cv">Impairs placental function — reduces oxygen &amp; nutrient exchange</span>
+            <span class="cl">Concentration</span><span class="cv">Dose is HIGHER in infant than mother (rapid diffusion through placenta)</span>
+            <span class="cl">Dose effect</span><span class="cv">Higher exposure = higher miscarriage risk &amp; lower birth weight</span>
+            <span class="cl">Synergy</span><span class="cv">Potentiates other teratogens by increasing their placental transport</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Fetal growth retardation &amp; low-birth-weight deliveries</li>
+            <li>Higher incidence of ectopic pregnancies (zygote in fallopian tube)</li>
+            <li>Sudden Infant Death Syndrome (SIDS)</li>
+            <li>Elevated fetal heart rate (nicotinic receptor stimulation → adrenaline release)</li>
+            <li>Disrupted autonomic nervous system development</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>Complete cessation is strongly advised</li>
+            <li>NRT (patches, gum) under medical guidance if cessation difficult</li>
+            <li>Avoid secondhand smoke environments</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip">
+            <strong>★ Exam Q: How does smoking affect the child's heart rate?</strong>
+            <p>Nicotine crosses the placenta and reaches HIGHER concentrations in the fetus than in the mother. It acts as a stimulant on the autonomic nervous system — binding to nicotinic acetylcholine receptors and triggering adrenaline (epinephrine) release → elevated fetal heart rate.</p>
+            <p>Chronic exposure disrupts normal development of the fetal autonomic nervous system, impairing heart rate regulation even after birth — a key mechanism linked to SIDS.</p>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- ALCOHOL -->
+      <div class="card" data-cat="sub" data-name="alcohol fas fae fetal alcohol syndrome">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Alcohol ★</div>
+            <div class="csub">FAS · FAE · paternal effects</div>
+            <div class="cprev">⚠️ No safe level established — whole pregnancy</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Fetal_alcohol_spectrum_disorder" alt="Fetal alcohol spectrum disorder">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">FAS vs FAE</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Exam Q</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Indirect harm</span><span class="cv">Compromises placental functioning throughout whole pregnancy</span>
+            <span class="cl">Direct harm</span><span class="cv">Structural brain anomalies; risk of miscarriage</span>
+            <span class="cl">Paternal effects</span><span class="cv">Reduced sperm motility &amp; count, abnormal sperm → lower birth weight in child</span>
+            <span class="cl">Outcomes</span><span class="cv">FAS (severe) and FAE (milder) — both irreversible</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Fetal Alcohol Syndrome (FAS) — heavy/regular drinking</li>
+            <li>Fetal Alcohol Effects (FAE) — lower/less consistent exposure</li>
+            <li>Miscarriage and premature delivery</li>
+            <li>Structural brain abnormalities; heart defects</li>
+            <li>Paternal alcohol use linked to lower birth weight in offspring</li>
+          </ul></div>
+          <div class="tp" data-p="t">
+            <div style="font-size:0.8rem; margin-bottom:8px;">
+              <div style="color:var(--text2); font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px;">FAS — Severe (heavy/regular drinking)</div>
+              <div style="color:var(--text); font-size:0.8rem;">PHYSICAL: Microcephaly, flattened philtrum, thin upper lip, widely-spaced eyes, low birth weight, heart defects</div>
+              <div style="color:var(--text); font-size:0.8rem; margin-top:4px;">MENTAL: Intellectual disability, impulse control deficits, attention deficits (ADHD-like), poor memory, impaired abstract reasoning</div>
+            </div>
+            <div style="font-size:0.8rem; border-top:1px solid var(--border); padding-top:8px;">
+              <div style="color:var(--text2); font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px;">FAE — Milder (lower/less consistent)</div>
+              <div style="color:var(--text); font-size:0.8rem;">PHYSICAL: Features subtle or absent; growth issues less pronounced</div>
+              <div style="color:var(--text); font-size:0.8rem; margin-top:4px;">MENTAL: Learning difficulties, attention &amp; memory problems, behavioral issues — without full FAS physical profile</div>
+            </div>
+          </div>
+          <div class="tp" data-p="x"><div class="tip">
+            <strong>★ Exam Q: Physical &amp; mental characteristics of FAS vs FAE</strong>
+            <div class="tip-section"><div class="tip-label">FAS requires all 3 criteria:</div>
+              <ul><li>Growth deficiency</li><li>Facial abnormalities (microcephaly, philtrum, thin lip, small eyes)</li><li>CNS dysfunction (intellectual disability, impulse/attention deficits)</li></ul>
+            </div>
+            <div class="tip-section"><div class="tip-label">FAE = some but not all criteria:</div>
+              <ul><li>Primarily cognitive &amp; behavioral problems</li><li>Subtle or absent physical features</li></ul>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- MARIJUANA -->
+      <div class="card" data-cat="sub" data-name="marijuana cannabis">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Marijuana / Cannabis</div>
+            <div class="csub">THC crosses placenta; effects especially in boys</div>
+            <div class="cprev">⚠️ Amygdala effects on emotional behavior</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Cannabis" alt="Cannabis">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Management</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Tip</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Brain target</span><span class="cv">Basal nucleus of the amygdala — regulates emotional behavior</span>
+            <span class="cl">Sex difference</span><span class="cv">Effects especially pronounced in boys</span>
+            <span class="cl">Mechanism</span><span class="cv">THC and metabolites cross the placenta and accumulate in fetal tissue</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Tremors in first weeks of life</li>
+            <li>Sleep disturbances in newborns</li>
+            <li>Lack of interest in surroundings (reduced arousal)</li>
+            <li>Long-term emotional regulation difficulties</li>
+            <li>Effects especially pronounced in boys</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>Complete avoidance recommended during pregnancy</li>
+            <li>No established safe level</li>
+            <li>Risk increases with frequency and potency of use</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip"><strong>★</strong> Marijuana = amygdala (emotional behavior) is the key brain structure affected. Remember: effects are especially pronounced in boys — a sex-specific vulnerability. Early signs: tremors, sleep disturbances, and reduced interest in surroundings in the newborn.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════ MEDICATIONS ══════════ -->
+  <section class="cat-sec" id="sec-med">
+    <div class="cat-hdr hdr-med">
+      <h2>💉 Medications</h2>
+      <span class="cat-badge">4 agents</span>
+    </div>
+    <div class="grid">
+
+      <!-- ANTI-DEPRESSANTS -->
+      <div class="card" data-cat="med" data-name="antidepressants lithium ssri mood stabilizers">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Anti-depressants ★</div>
+            <div class="csub">SSRIs · Lithium · Mood stabilizers</div>
+            <div class="cprev">⚠️ Ethical dilemma — treated vs untreated depression</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Antidepressant" alt="Antidepressants">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">For vs Against</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Exam Q</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">SSRIs (3rd tri)</span><span class="cv">Neonatal adaptation syndrome — tremors, feeding issues, irritability</span>
+            <span class="cl">Lithium (1st tri)</span><span class="cv">Heart defects during 1st trimester organogenesis</span>
+            <span class="cl">Ethical dilemma</span><span class="cv">Untreated depression also harms fetus via stress hormones &amp; neglect</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Organ development problems (various antidepressants)</li>
+            <li>Lithium → cardiac defects in 1st trimester</li>
+            <li>SSRIs in 3rd trimester → neonatal adaptation syndrome (tremors, feeding difficulties, irritability)</li>
+          </ul></div>
+          <div class="tp" data-p="t">
+            <div style="font-size:0.8rem; margin-bottom:8px;">
+              <div style="color:#4caf50; font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px;">FOR use</div>
+              <div style="color:var(--text); font-size:0.8rem;">Untreated severe depression → self-neglect, suicidal ideation; stress cortisol crosses placenta and damages fetal brain; rapid relapse risk if stopped</div>
+            </div>
+            <div style="font-size:0.8rem; border-top:1px solid var(--border); padding-top:8px;">
+              <div style="color:var(--ill); font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px;">AGAINST use</div>
+              <div style="color:var(--text); font-size:0.8rem;">Clear teratogenic risks (cardiac, neonatal adaptation); CBT may be sufficient for mild-moderate cases; 1st trimester most vulnerable</div>
+            </div>
+          </div>
+          <div class="tp" data-p="x"><div class="tip">
+            <strong>★ Exam Q: Ethical issue — when to allow / restrict?</strong>
+            <div class="tip-section"><div class="tip-label">Allow when:</div>
+              <ul><li>Severe depression with suicidal risk</li><li>Risk to mother clearly outweighs fetal risk</li><li>Generally after 1st trimester (major organogenesis complete)</li></ul>
+            </div>
+            <div class="tip-section"><div class="tip-label">Restrict when:</div>
+              <ul><li>Mild-to-moderate depression manageable by therapy (CBT)</li><li>During 1st trimester when organ formation is most vulnerable</li><li>Lithium &amp; mood stabilisers → cardiac defects in 1st trimester</li></ul>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- THALIDOMIDE -->
+      <div class="card" data-cat="med" data-name="thalidomide phocomelia morning sickness 1960s">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Thalidomide</div>
+            <div class="csub">Historical case — 1960s morning sickness drug</div>
+            <div class="cprev">⚠️ Phocomelia · Critical window: weeks 3–8</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Thalidomide" alt="Thalidomide">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Historical Context</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Tip</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Era</span><span class="cv">Sold in 1960s to alleviate morning sickness</span>
+            <span class="cl">Key outcome</span><span class="cv">Phocomelia — structural abnormalities of limbs (all/parts missing)</span>
+            <span class="cl">Critical window</span><span class="cv">Weeks 3–8: limb buds forming — extremely sensitive</span>
+            <span class="cl">Hallmark</span><span class="cv">Feet/hands attached directly to torso (flipper-like limbs)</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Phocomelia — limb deformities (feet attached directly to torso)</li>
+            <li>Deformities of eyes, ears, nose, and heart</li>
+            <li>Effects limited to embryonic period (weeks 3–8 of development)</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>Withdrawn from market in early 1960s after link to birth defects proven</li>
+            <li>Pivotal case for modern drug testing &amp; teratology research</li>
+            <li>Led to stricter FDA/EMA regulations for testing drugs in pregnancy</li>
+            <li>Thalidomide now used under strict controls (e.g. for leprosy, myeloma)</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip"><strong>★</strong> Thalidomide = the classic historical teratogen case. Key terms: PHOCOMELIA (limbs missing/feet at torso). Illustrates the critical period concept — damage occurred only in weeks 3–8. Transformed how drugs are tested before approval.</div></div>
+        </div>
+      </div>
+
+      <!-- PAIN MEDICATION -->
+      <div class="card" data-cat="med" data-name="aspirin ibuprofen pain medication nsaids">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Pain Medication</div>
+            <div class="csub">Aspirin · Ibuprofen (NSAIDs)</div>
+            <div class="cprev">⚠️ Trimester-specific risks</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Aspirin" alt="Aspirin">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Management</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Tip</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Aspirin</span><span class="cv">Growth retardation, poor motor control, even infant death</span>
+            <span class="cl">Ibuprofen</span><span class="cv">3rd trimester use → prolonged delivery &amp; pulmonary hypertension</span>
+            <span class="cl">Mechanism</span><span class="cv">Prostaglandin inhibition affects fetal circulation and development</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Aspirin → fetal growth retardation &amp; poor motor control</li>
+            <li>Aspirin → infant death (in severe cases)</li>
+            <li>Ibuprofen in 3rd trimester → increased risk of prolonged delivery</li>
+            <li>Ibuprofen in 3rd trimester → pulmonary hypertension in newborns</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>Paracetamol (acetaminophen) is the preferred pain reliever during pregnancy</li>
+            <li>Avoid NSAIDs, especially in 3rd trimester</li>
+            <li>Low-dose aspirin may be prescribed for specific conditions (pre-eclampsia prevention) — always medical supervision</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip"><strong>★</strong> Aspirin → growth retardation + poor motor control. Ibuprofen (3rd trimester) → prolonged delivery + pulmonary hypertension in newborns. Remember: trimester matters — 3rd trimester is the key risk window for ibuprofen.</div></div>
+        </div>
+      </div>
+
+      <!-- DES -->
+      <div class="card" data-cat="med" data-name="DES diethylstilbestrol estrogen miscarriage cervical cancer">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Diethylstilbestrol (DES)</div>
+            <div class="csub">Synthetic estrogen — prescribed 1940s–1965</div>
+            <div class="cprev">⚠️ Transgenerational effects on daughters</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Diethylstilbestrol" alt="Diethylstilbestrol">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Long-term Impact</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Tip</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Use</span><span class="cv">Prescribed 1940s–1965 to prevent miscarriages</span>
+            <span class="cl">Key finding</span><span class="cv">Affected reproductive organs; rare cervical cancer (daughters)</span>
+            <span class="cl">Transgenerational</span><span class="cv">Daughters of exposed mothers → higher risk of miscarriage or premature delivery</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Reproductive organ abnormalities in exposed offspring</li>
+            <li>Small but elevated risk of developing rare cervical/vaginal cancer (daughters)</li>
+            <li>Daughters of DES mothers: increased miscarriage &amp; premature delivery risk</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>DES was withdrawn from use in pregnant women by early 1970s</li>
+            <li>Classic example of delayed and transgenerational teratogenic effects</li>
+            <li>Important for understanding long-term consequences of prenatal exposure</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip"><strong>★</strong> DES = key transgenerational effect — the daughters of exposed mothers faced higher miscarriage &amp; premature delivery risk. Demonstrates that teratogenic effects can skip to the next generation. Historical case similar to thalidomide in its policy impact.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════ ILLEGAL DRUGS ══════════ -->
+  <section class="cat-sec" id="sec-ill">
+    <div class="cat-hdr hdr-ill">
+      <h2>⚠️ Illegal Drugs</h2>
+      <span class="cat-badge">2 agents</span>
+    </div>
+    <div class="grid">
+
+      <!-- HEROIN / OPIOIDS -->
+      <div class="card" data-cat="ill" data-name="heroin methadone opioids narcotics addiction">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Heroin / Methadone / Opioids</div>
+            <div class="csub">Addictive narcotics — withdrawal in newborn</div>
+            <div class="cprev">⚠️ 60–80% of infants face tough first month</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Neonatal_withdrawal" alt="Neonatal withdrawal">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Management</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Tip</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Gross defects</span><span class="cv">No gross physical abnormalities — but significant functional consequences</span>
+            <span class="cl">Withdrawal</span><span class="cv">60–80% of exposed infants experience a difficult first month due to withdrawal</span>
+            <span class="cl">Duration</span><span class="cv">Withdrawal symptoms can last up to 4 months</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Higher incidence of miscarriage and premature delivery</li>
+            <li>Infant death risk elevated</li>
+            <li>Neonatal withdrawal: tremors, restlessness, sleep disturbances</li>
+            <li>Trouble breathing and swallowing</li>
+            <li>Symptoms can persist up to 4 months</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>Methadone maintenance under supervision is harm-reduction approach</li>
+            <li>Abrupt cessation can be dangerous — managed tapering preferred</li>
+            <li>Neonates require monitoring for Neonatal Opioid Withdrawal Syndrome (NOWS)</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip"><strong>★</strong> Heroin/opioids: note NO gross physical deformities — distinction from thalidomide. Instead: functional problems — withdrawal (60–80% affected), tremors, sleep disturbances up to 4 months. Also higher miscarriage, premature delivery, and infant death.</div></div>
+        </div>
+      </div>
+
+      <!-- COCAINE -->
+      <div class="card" data-cat="ill" data-name="cocaine crack prenatal exposure cognitive">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Cocaine ★</div>
+            <div class="csub">Vasoconstrictor — fetal oxygen deprivation</div>
+            <div class="cprev">⚠️ Attachment disruption · 3 cognitive problems</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Prenatal_cocaine_exposure" alt="Cocaine prenatal exposure">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Management</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Exam Q</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Mechanism</span><span class="cv">Constricts blood vessels of mother &amp; fetus → elevates fetal blood pressure, reduces O₂/nutrients</span>
+            <span class="cl">Attachment</span><span class="cv">Irritable baby → bonding difficulties → insecure attachment (indirect disruption)</span>
+            <span class="cl">Cognition</span><span class="cv">Attention, language/verbal reasoning, and executive function deficits</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Often causes miscarriages or premature births</li>
+            <li>Tremors and sleep disturbances in newborns</li>
+            <li>Sluggish inattention to environment</li>
+            <li>Indirectly disrupts parent–child attachment (irritable baby → bonding difficulties)</li>
+            <li>Multiple cognitive problems (attention, language, executive function)</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>No safe level during pregnancy — abstinence required</li>
+            <li>Substance use treatment and prenatal care are critical</li>
+            <li>Monitor infant for cognitive and behavioral development</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip">
+            <strong>★ Exam Q: Name 3 cognitive problems caused by cocaine exposure</strong>
+            <div class="tip-section"><ul>
+              <li><strong>Attention deficits</strong> — sustained difficulties with focused &amp; selective attention; ADHD-like symptoms</li>
+              <li><strong>Language &amp; verbal reasoning deficits</strong> — impaired expressive &amp; receptive language, slower vocabulary acquisition, poorer verbal memory</li>
+              <li><strong>Executive function impairments</strong> — planning, working memory, cognitive flexibility, inhibitory control (prefrontal cortex disruption)</li>
+            </ul></div>
+          </div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════ INFECTIOUS AGENTS ══════════ -->
+  <section class="cat-sec" id="sec-inf">
+    <div class="cat-hdr hdr-inf">
+      <h2>🦠 Infectious Agents</h2>
+      <span class="cat-badge">4 agents</span>
+    </div>
+    <div class="grid">
+
+      <!-- GENITAL HERPES -->
+      <div class="card" data-cat="inf" data-name="genital herpes hsv neonatal birth">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Genital Herpes (HSV-2)</div>
+            <div class="csub">Incurable STI — transmission during delivery</div>
+            <div class="cprev">⚠️ 1/3 of infected newborns die</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Neonatal_herpes_simplex" alt="Neonatal herpes">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Management</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Tip</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Transmission</span><span class="cv">Most infections occur DURING BIRTH via contact with mother's genitals</span>
+            <span class="cl">Prognosis</span><span class="cv">1/3 of infected newborns die</span>
+            <span class="cl">Survivors</span><span class="cv">25–30%: blindness, brain damage, serious neurological disorders</span>
+            <span class="cl">Solution</span><span class="cv">Caesarean delivery to avoid vaginal contact</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>1/3 of infected newborns die</li>
+            <li>25–30% of survivors: blindness</li>
+            <li>Brain damage and neurological disorders in survivors</li>
+            <li>Incurable — no vaccine available</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>Caesarean (C-section) delivery if active outbreak at time of birth</li>
+            <li>Antiviral suppression therapy (acyclovir) in late pregnancy reduces outbreak risk</li>
+            <li>Mothers should inform their obstetrician of HSV status</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip"><strong>★</strong> Herpes = transmitted during BIRTH (not in utero) — this makes it preventable via C-section. Memorise the stats: 1/3 die, 25–30% of survivors suffer blindness/brain damage. Contrast with rubella which is most dangerous EARLY in pregnancy.</div></div>
+        </div>
+      </div>
+
+      <!-- RUBELLA -->
+      <div class="card" data-cat="inf" data-name="rubella german measles blindness deafness cardiac">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Rubella (German Measles)</div>
+            <div class="csub">Timing-dependent severity — early = most dangerous</div>
+            <div class="cprev">⚠️ Blindness · Deafness · Cardiac abnormalities</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Rubella" alt="Rubella">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Management</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Tip</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Critical window</span><span class="cv">Early in pregnancy — severity decreases as pregnancy progresses</span>
+            <span class="cl">Primary outcome</span><span class="cv">Blindness (hallmark of early 1st trimester infection)</span>
+            <span class="cl">Key principle</span><span class="cv">Severity depends on TIMING — classic critical period example</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Blindness — especially if infected in early pregnancy</li>
+            <li>Deafness</li>
+            <li>Cardiac abnormalities</li>
+            <li>Mental retardation</li>
+            <li>Severity decreases in later trimesters</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>MMR vaccination before pregnancy is the primary prevention</li>
+            <li>Vaccine not safe during pregnancy — vaccinate pre-conception</li>
+            <li>If exposed during pregnancy: assess immune status, consider immunoglobulin</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip"><strong>★</strong> Rubella = textbook critical period example. Earlier infection = worse outcomes. Blindness is the hallmark of early exposure. Deafness, cardiac defects, and mental retardation also possible. Preventable with MMR vaccine (pre-conception).</div></div>
+        </div>
+      </div>
+
+      <!-- TOXOPLASMOSIS -->
+      <div class="card" data-cat="inf" data-name="toxoplasmosis parasite cat feces raw meat eye brain">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Toxoplasmosis</div>
+            <div class="csub">Parasite from cats / raw meat</div>
+            <div class="cprev">⚠️ Eye &amp; brain damage in 1st trimester</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Toxoplasmosis" alt="Toxoplasmosis">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Prevention</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Tip</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Cause</span><span class="cv">Single-celled parasite (Toxoplasma gondii)</span>
+            <span class="cl">Sources</span><span class="cv">Cat feces (litter boxes) · raw or undercooked meat</span>
+            <span class="cl">In adults</span><span class="cv">Cold-like symptoms only (often asymptomatic)</span>
+            <span class="cl">1st trimester</span><span class="cv">Eye and brain damage</span>
+            <span class="cl">Later pregnancy</span><span class="cv">Miscarriage</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>1st trimester: eye damage (chorioretinitis → vision loss)</li>
+            <li>1st trimester: brain damage (encephalitis, calcifications)</li>
+            <li>Later in pregnancy: miscarriage</li>
+            <li>Adults: minimal symptoms (cold-like)</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>Avoid handling cat litter during pregnancy (delegate to someone else)</li>
+            <li>Cook all meat thoroughly (no rare/medium-rare)</li>
+            <li>Wash hands and vegetables thoroughly</li>
+            <li>Avoid stray cats; garden gloves when gardening</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip"><strong>★</strong> Toxoplasmosis = the pregnancy cat warning — caused by a single-celled parasite. Remember: adults get cold-like symptoms; fetus (1st trimester) gets eye &amp; brain damage. Later in pregnancy → miscarriage. Contrast with rubella (blindness from viral infection).</div></div>
+        </div>
+      </div>
+
+      <!-- SYPHILIS & HIV -->
+      <div class="card" data-cat="inf" data-name="syphilis HIV AIDS STD sexually transmitted congenital">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Syphilis &amp; HIV/AIDS ★</div>
+            <div class="csub">Sexually transmitted infections with placental crossing</div>
+            <div class="cprev">⚠️ Syphilis most harmful after 4th month · &lt;25% HIV transmission</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Congenital_syphilis" alt="Congenital syphilis">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Management</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Exam Q</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Syphilis timing</span><span class="cv">Most harmful AFTER 4th month — Langhans layer protects before then</span>
+            <span class="cl">HIV risk</span><span class="cv">&lt;25% of babies of infected mothers born with HIV</span>
+            <span class="cl">HIV survival</span><span class="cv">~50% of infected babies survive past age 6</span>
+            <span class="cl">Prevention</span><span class="cv">Early antibiotic treatment (syphilis); antivirals during pregnancy (HIV)</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Syphilis: miscarriage (if early) or congenital syphilis (bone, ear, eye, heart, brain damage)</li>
+            <li>HIV: many infected babies develop full-blown AIDS by age 3</li>
+            <li>HIV: ~50% of infected infants survive past age 6</li>
+            <li>Immature immune system complications — often fatal</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>Syphilis: penicillin treatment in 1st trimester prevents fetal infection entirely</li>
+            <li>HIV: antiretroviral therapy (ART) during pregnancy reduces transmission to &lt;1%</li>
+            <li>Routine STI screening at prenatal visits is essential</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip">
+            <strong>★ Exam Q: When is syphilis most harmful during pregnancy?</strong>
+            <p>Syphilis is most harmful <strong>after the 4th month</strong> (second trimester onward). Before this, the Langhans cell layer in the placenta prevents Treponema pallidum from crossing to the fetus.</p>
+            <p>After this layer breaks down (~16–18 weeks), bacteria can freely infect the fetus → stillbirth, congenital syphilis (bone &amp; organ damage), neurological problems.</p>
+            <p>Early detection + penicillin in the 1st trimester can prevent fetal infection entirely.</p>
+          </div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════ ENVIRONMENTAL ══════════ -->
+  <section class="cat-sec" id="sec-env">
+    <div class="cat-hdr hdr-env">
+      <h2>☢️ Environmental Hazards</h2>
+      <span class="cat-badge">2 agents</span>
+    </div>
+    <div class="grid">
+
+      <!-- RADIATION -->
+      <div class="card" data-cat="env" data-name="radiation x-ray CT scan nuclear atomic">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Radiation ★</div>
+            <div class="csub">Ionizing radiation — X-rays, CT scans, nuclear exposure</div>
+            <div class="cprev">⚠️ ALARA principle — As Low As Reasonably Achievable</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Ionizing_radiation" alt="Ionizing radiation">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Avoidable Sources</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Exam Q</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Known harms</span><span class="cv">Miscarriages, disability, mental retardation</span>
+            <span class="cl">Uncertainty</span><span class="cv">Exact extent of harm not fully known — precautionary principle applies</span>
+            <span class="cl">Principle</span><span class="cv">ALARA — As Low As Reasonably Achievable</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Miscarriages</li>
+            <li>Physical disability</li>
+            <li>Mental retardation</li>
+            <li>Exact dose–harm relationship still under investigation</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>Medical X-rays: postpone non-urgent dental/skeletal X-rays; lead apron if unavoidable</li>
+            <li>CT scans: higher radiation — prefer MRI (no ionizing radiation) unless essential</li>
+            <li>Occupational: request reassignment from radiology/nuclear medicine/aviation jobs</li>
+            <li>Airport security scanners: pregnant women can request manual screening</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip">
+            <strong>★ Exam Q: What radiation sources can a pregnant woman avoid?</strong>
+            <div class="tip-section"><ul>
+              <li>Non-urgent dental or skeletal X-rays (postpone; lead apron if essential)</li>
+              <li>CT scans — prefer MRI (no ionizing radiation)</li>
+              <li>Radiology/nuclear medicine/aviation workplaces — request reassignment</li>
+              <li>Airport body scanners — request manual screening</li>
+            </ul></div>
+            <p style="margin-top:6px">Principle: ALARA — As Low As Reasonably Achievable.</p>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- CHEMICALS / POLLUTANTS -->
+      <div class="card" data-cat="env" data-name="chemicals pollutants lead mercury heavy metals pesticides">
+        <div class="card-head">
+          <input type="checkbox" class="card-cb" onchange="tick(this)">
+          <div>
+            <div class="cname">Chemicals &amp; Pollutants</div>
+            <div class="csub">Heavy metals · Pesticides · Food additives</div>
+            <div class="cprev">⚠️ Lead · Mercury · Zinc — physical deformities</div>
+          </div>
+        </div>
+        <div class="card-img-wrap">
+          <img data-wiki="Heavy_metals" alt="Heavy metal pollution">
+        </div>
+        <div class="card-tabs">
+          <button class="ctab active" onclick="tab(this,'c')">Core Info</button>
+          <button class="ctab" onclick="tab(this,'s')">Fetal Effects</button>
+          <button class="ctab" onclick="tab(this,'t')">Management</button>
+          <button class="ctab" onclick="tab(this,'x')">★ Tip</button>
+        </div>
+        <div class="card-body">
+          <div class="tp active" data-p="c"><div class="cg">
+            <span class="cl">Additives</span><span class="cv">Food, pesticides, cosmetics — currently unknown effects on prenatal development</span>
+            <span class="cl">Heavy metals</span><span class="cv">Lead, zinc, mercury → physical deformities &amp; mental retardation in embryo/fetus</span>
+            <span class="cl">Breastfeeding</span><span class="cv">Exposure during AND after pregnancy/breastfeeding → neurological &amp; pathological damage</span>
+            <span class="cl">Paternal effect</span><span class="cv">May damage father's chromosomes → miscarriages or genetic defects in offspring</span>
+          </div></div>
+          <div class="tp" data-p="s"><ul>
+            <li>Heavy metals (lead, zinc, mercury) → physical deformities in embryo/fetus</li>
+            <li>Mental retardation from heavy metal exposure</li>
+            <li>Neurological damage from post-birth exposure (dose effect)</li>
+            <li>Paternal chromosome damage → miscarriages or genetic defects</li>
+            <li>Unknown long-term effects from common additives (pesticides, cosmetics)</li>
+          </ul></div>
+          <div class="tp" data-p="t"><ul>
+            <li>Avoid high-mercury fish (shark, swordfish, king mackerel, tilefish)</li>
+            <li>Avoid lead paint in older homes (renovation work especially)</li>
+            <li>Minimize pesticide exposure; choose organic when feasible</li>
+            <li>Avoid occupational chemical exposure — inform employer of pregnancy</li>
+            <li>Risk continues after birth through breastfeeding — persistence matters</li>
+          </ul></div>
+          <div class="tp" data-p="x"><div class="tip"><strong>★</strong> Key heavy metals: Lead, Zinc, Mercury → physical deformities + mental retardation. Important: harm continues after birth via breastfeeding (dose effect). Also notable: paternal exposure can damage chromosomes → miscarriage or genetic defects in offspring — an often-overlooked paternal teratogen effect.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<div id="done-banner">
+  <span class="done-emoji">🎉</span>
+  <div class="done-title">All teratogens recalled!</div>
+  <div class="done-sub">You're ready for your exam!</div>
+  <div class="done-close" onclick="document.getElementById('done-banner').classList.remove('visible')">close</div>
+</div>
+
+<footer>
+  Teratogens · Shaffer &amp; Kipp (2014) · Developmental Psychology<br>
+  Images: Wikipedia (CC-BY-SA) · sezsaracoglu-lab.github.io
+</footer>
+
+<script>
+function tab(btn, p) {
+  const c = btn.closest('.card');
+  c.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
+  c.querySelectorAll('.tp').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  c.querySelector(`[data-p="${p}"]`).classList.add('active');
+}
+
+function tick(cb) {
+  cb.closest('.card').classList.toggle('checked', cb.checked);
+  updateProg();
+}
+
+function updateProg() {
+  const t = document.querySelectorAll('.card-cb').length;
+  const d = document.querySelectorAll('.card-cb:checked').length;
+  const pct = t ? Math.round(d / t * 100) : 0;
+  document.getElementById('prog').textContent = `${d} / ${t} recalled`;
+  document.getElementById('pbar-label').textContent = `${d} / ${t}`;
+  document.getElementById('pbar').style.width = pct + '%';
+  const fill = document.getElementById('pbar');
+  if (pct === 100) {
+    fill.style.background = '#2ea043';
+    document.getElementById('done-banner').classList.add('visible');
+  } else if (pct >= 50) {
+    fill.style.background = 'linear-gradient(90deg, #e36209, #da3633)';
+    document.getElementById('done-banner').classList.remove('visible');
+  } else {
+    fill.style.background = 'linear-gradient(90deg, #e36209, #da3633, #2ea043)';
+    document.getElementById('done-banner').classList.remove('visible');
+  }
+}
+
+function clearChecks() {
+  document.querySelectorAll('.card-cb').forEach(cb => {
+    cb.checked = false;
+    cb.closest('.card').classList.remove('checked');
+  });
+  document.getElementById('done-banner').classList.remove('visible');
+  updateProg();
+}
+
+function expandAll() {
+  document.querySelectorAll('.card').forEach(c => {
+    c.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
+    c.querySelectorAll('.tp').forEach(x => x.classList.remove('active'));
+    const btn = [...c.querySelectorAll('.ctab')].find(b => b.textContent.includes('Effects') || b.textContent.includes('Fetal'));
+    if (btn) btn.classList.add('active');
+    const sym = c.querySelector('[data-p="s"]');
+    if (sym) sym.classList.add('active');
+  });
+}
+
+function doSearch() {
+  const q = document.getElementById('srch').value.toLowerCase();
+  document.querySelectorAll('.card').forEach(c => {
+    c.classList.toggle('hidden', q.length > 0 && !(c.dataset.name||'').toLowerCase().includes(q));
+  });
+  syncSecs();
+}
+
+function setFilter(cat, pill) {
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  pill.classList.add('active');
+  document.querySelectorAll('.card').forEach(c => {
+    c.classList.toggle('hidden', cat !== 'all' && c.dataset.cat !== cat);
+  });
+  syncSecs();
+}
+
+function syncSecs() {
+  document.querySelectorAll('.cat-sec').forEach(s => {
+    s.classList.toggle('hidden', [...s.querySelectorAll('.card')].every(c => c.classList.contains('hidden')));
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateProg();
+  loadWikiImages();
+});
+
+async function loadWikiImages() {
+  const imgs = document.querySelectorAll('img[data-wiki]');
+  imgs.forEach(img => {
+    const wrap = img.closest('.card-img-wrap');
+    if (wrap) {
+      const spinner = document.createElement('div');
+      spinner.className = 'img-loading';
+      wrap.appendChild(spinner);
+    }
+  });
+
+  for (const img of imgs) {
+    const article = img.getAttribute('data-wiki');
+    const wrap = img.closest('.card-img-wrap');
+    const spinner = wrap ? wrap.querySelector('.img-loading') : null;
+    try {
+      const url = `https://en.wikipedia.org/w/api.php?action=query&titles=${article}&prop=pageimages&format=json&pithumbsize=500&origin=*`;
+      const res = await fetch(url);
+      const data = await res.json();
+      const pages = data.query.pages;
+      const page = Object.values(pages)[0];
+      if (page.thumbnail && page.thumbnail.source) {
+        img.onload = () => { img.classList.add('loaded'); if (spinner) spinner.remove(); };
+        img.src = page.thumbnail.source;
+      } else {
+        if (spinner) spinner.remove();
+        showFallback(img);
+      }
+    } catch(e) {
+      if (spinner) spinner.remove();
+      showFallback(img);
+    }
+  }
+}
+
+function showFallback(img) {
+  const wrap = img.closest('.card-img-wrap');
+  if (wrap) {
+    const card = img.closest('.card');
+    const cat = card ? card.dataset.cat : '';
+    const colors = { sub:'var(--sub)', med:'var(--med)', ill:'var(--ill)', inf:'var(--inf)', env:'var(--env)' };
+    const label = card ? card.querySelector('.cname')?.textContent?.substring(0,4).toUpperCase() : '?';
+    wrap.innerHTML = `<div class="img-fb" style="color:${colors[cat]||'#888'}">${label}</div>`;
+  }
+}
+</script>
+</body>
+</html>
